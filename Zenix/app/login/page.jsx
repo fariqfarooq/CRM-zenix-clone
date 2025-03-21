@@ -20,7 +20,7 @@ export default function LoginPage() {
       if (res.ok) {
         toast.success('Login successful');
         localStorage.setItem('token', data.token);
-        router.push('/');
+        router.push('/profile');
       } else {
         toast.error(data.message || 'Login failed');
       }
