@@ -21,27 +21,23 @@ import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { Icon } from "@iconify/react";
 import { useRouter } from 'next/navigation';
+import { useUser } from '@/contexts/UserContexts';
 
 export const Navbar = () => {
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
-  const [userName, setUserName] = useState(""); // This will hold the user's name if needed
+  const { userLoggedIn, userName, logout } = useUser();  // This will hold the user's name if needed
   const router = useRouter();
+
   // Check if user is logged in when the component mounts
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setUserLoggedIn(true);
-      // Optionally, you can use a library to decode the token and extract user info (like username)
-      // Example: const decoded = jwtDecode(token);
-      setUserName("John Doe"); // This can be dynamically fetched from the token or API
-    }
-  }, []);
+ 
+
+    // Check login status initially
+
+
+  ; // Empty dependency array ensures this effect only runs once on mount
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    setUserLoggedIn(false);
-    setUserName("");
-    router.push("/"); // Clear the username when logging out
+    logout();
+    router.push("/"); // Redirect after logout
   };
 
   const searchInput = (
@@ -107,7 +103,7 @@ export const Navbar = () => {
               size="lg"
               radius="sm"
             >
-              {userName}&nbsp;s Profile
+               Profile
             </Button>
             <Button
               className="font-semibold text-sm text-white"

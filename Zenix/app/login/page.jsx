@@ -1,12 +1,16 @@
 'use client';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast, { Toaster } from 'react-hot-toast';
+import { useUser } from '@/contexts/UserContexts';
+// Importing the UserContext
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
+  const { login } = useUser();  // Destructure login function from the context
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -19,8 +23,11 @@ export default function LoginPage() {
       const data = await res.json();
       if (res.ok) {
         toast.success('Login successful');
-        localStorage.setItem('token', data.token);
-        router.push('/profile');
+        
+        // Set the user state via the UserContext
+        login(data.token, data.userName); // Pass the token and username from the response
+
+        router.push('/profile'); // Redirect to the profile page
       } else {
         toast.error(data.message || 'Login failed');
       }
