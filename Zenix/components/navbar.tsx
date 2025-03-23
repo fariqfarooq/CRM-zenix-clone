@@ -28,7 +28,7 @@ export const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    router.push("/"); // Redirect after logout
+    router.push("/login"); // Redirect after logout
   };
 
   const searchInput = (
