@@ -5,13 +5,13 @@ import { Image } from "@heroui/image";
 export default function Footer() {
   return (
     <footer className="bg-[#004050] text-white">
-      {/* Full Width Top Border */}
+     
       <div className="w-full border-t border-[#EBFEF614]" />
       
       {/* Top Section */}
       <div className="container mx-auto px-4 py-10">
         <div className="flex flex-col md:flex-row justify-between items-center">
-          {/* Left Side: Logo & Tagline */}
+      
           <div className="flex items-center space-x-4">
             <Link href="https://crm-zenix.keystonedemo.com/">
               <Image
@@ -26,7 +26,7 @@ export default function Footer() {
               <span className="text-[#a9ff9b]">success</span>
             </h2>
           </div>
-          {/* Right Side: Contact Info (text on left, icon on right) */}
+          
           <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8 mt-6 md:mt-0">
             {/* Phone Block */}
             <div className="flex items-center">
@@ -68,10 +68,10 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Full Width Border after Top Section */}
+      
       <div className="w-full border-b border-[#EBFEF614]" />
 
-      {/* Middle Section: Navigation Links */}
+      {/* Middle Section */}
       <div className="container mx-auto px-4 py-10">
         <div className="grid grid-cols-1 sm:grid-cols-5 gap-8">
           {/* Company */}
@@ -112,7 +112,7 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          {/* Help & Support */}
+          
           <div>
             <h3 className="text-lg font-bold mb-4">Help &amp; Support</h3>
             <ul className="space-y-2">
@@ -150,7 +150,7 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          {/* Information */}
+         
           <div>
             <h3 className="text-lg font-bold mb-4">Information</h3>
             <ul className="space-y-2">
@@ -188,7 +188,7 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          {/* Quick Links */}
+          
           <div>
             <h3 className="text-lg font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
@@ -267,7 +267,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Full Width Border between Middle & Bottom */}
+ 
       <div className="w-full border-b border-[#EBFEF614]" />
 
       {/* Bottom Section: Copyright */}
@@ -276,6 +276,9 @@ export default function Footer() {
           <div className="text-center md:text-left">
             <p>Copyright © 2024. - WP Theme by</p>
             <p>Keystone Themes</p>
+            <p className="mt-2 text-xs">
+                Developed by <Link className="text-green-500" href="http://linkedin.com/in/fariq-farooq-a860261b2">Fariq Farooq</Link> as an assessment task for Shuura Business setup UAE
+            </p>
           </div>
           <div className="text-center md:text-right">
             <p>© 2024 All rights reserved</p>

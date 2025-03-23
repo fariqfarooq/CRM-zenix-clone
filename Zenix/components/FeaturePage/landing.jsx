@@ -5,7 +5,7 @@ import React from "react";
 const FeaturesAndServices = () => {
   return (
     <section className="flex flex-col items-center text-center px-4 py-16 bg-[#F4F4F4]">
-      {/* Small Tag */}
+      
       <Code
         className="text-sm font-medium bg-[#DFF9EB]  text-[#00CC61] mb-8"
         color=""

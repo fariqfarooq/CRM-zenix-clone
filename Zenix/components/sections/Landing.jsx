@@ -56,7 +56,7 @@ export default function LandingSection() {
           </div>
         </div>
 
-        {/* Features List */}
+       
        
       </div>
     </div>

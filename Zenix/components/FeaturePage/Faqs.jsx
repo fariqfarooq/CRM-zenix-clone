@@ -7,7 +7,7 @@ export default function FAQAccordion() {
   return (
     <section className="py-12 bg-[#004050] ">
       <div className="container mx-auto px-4">
-        {/* Section Header */}
+        
         <div className="text-center mb-8">
           <Code
             className="text-sm font-medium bg-[#DFF9EB]  text-[#00CC61]"

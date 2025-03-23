@@ -1,11 +1,12 @@
 "use client";
+import React, { useState } from "react";
 import {
   Navbar as HeroUINavbar,
   NavbarContent,
   NavbarMenu,
   NavbarBrand,
   NavbarItem,
-  NavbarMenuItem,
+  NavbarMenuToggle, // Added toggle import
 } from "@heroui/navbar";
 import { Button } from "@heroui/button";
 import { Kbd } from "@heroui/kbd";
@@ -19,44 +20,28 @@ import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
 
 import { siteConfig } from "@/config/site";
-import { ThemeSwitch } from "@/components/theme-switch";
 import { useUser } from "@/contexts/UserContexts";
 
 export const Navbar = () => {
-  const { userLoggedIn, userName, logout } = useUser();
+  const { userLoggedIn, logout } = useUser();
   const router = useRouter();
+
+  
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
-    router.push("/login"); // Redirect after logout
+    router.push("/login"); 
   };
 
-  const searchInput = (
-    <Input
-      aria-label="Search"
-      classNames={{
-        inputWrapper: "bg-default-100",
-        input: "text-sm",
-      }}
-      endContent={
-        <Kbd className="hidden lg:inline-block" keys={["command"]}>
-          K
-        </Kbd>
-      }
-      labelPlacement="outside"
-      placeholder="Search..."
-      startContent={
-        <Icon
-          className="text-base text-default-400 pointer-events-none flex-shrink-0"
-          icon="solar:search"
-        />
-      }
-      type="search"
-    />
-  );
-
+ 
   return (
-    <HeroUINavbar className="mt-2" maxWidth="xl" position="sticky">
+    <HeroUINavbar
+      className="my-2"
+      maxWidth="xl"
+      position="sticky"
+      onMenuOpenChange={setIsMenuOpen}
+    >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
@@ -68,13 +53,14 @@ export const Navbar = () => {
             />
           </NextLink>
         </NavbarBrand>
-        <ul className="hidden lg:flex gap-4 justify-start ml-2">
+        {/*  visible on lg and above */}
+        <ul className="hidden lg:flex gap-4 justify-start ml-6 ">
           {siteConfig.navItems.map((item) => (
             <NavbarItem key={item.href}>
               <NextLink
                 className={clsx(
                   linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium",
+                  "data-[active=true]:text-primary data-[active=true]:font-medium text-sm font-semibold",
                 )}
                 color="foreground"
                 href={item.href}
@@ -93,8 +79,7 @@ export const Navbar = () => {
         <NavbarItem className="hidden sm:flex gap-2">
           {/* <ThemeSwitch /> */}
         </NavbarItem>
-
-        {/* Conditionally render login/logout/profile buttons */}
+        
         {userLoggedIn ? (
           <>
             <Button
@@ -143,31 +128,76 @@ export const Navbar = () => {
         )}
       </NavbarContent>
 
+      {/* Hamburger menu toggle for small and md screens */}
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-      
-        {/* <ThemeSwitch /> */}
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="sm:hidden"
+        />
       </NavbarContent>
 
       <NavbarMenu>
-        {searchInput}
         <div className="mx-4 mt-2 flex flex-col gap-2">
-          {siteConfig.navMenuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                color={
-                  index === 2
-                    ? "primary"
-                    : index === siteConfig.navMenuItems.length - 1
-                      ? "danger"
-                      : "foreground"
-                }
-                href="#"
-                size="lg"
+          {siteConfig.navItems.map((item) => (
+            <NavbarItem key={item.href}>
+              <NextLink
+                className={clsx(
+                  linkStyles({ color: "foreground" }),
+                  "data-[active=true]:text-primary data-[active=true]:font-medium",
+                )}
+                color="foreground"
+                href={item.href}
               >
                 {item.label}
-              </Link>
-            </NavbarMenuItem>
+              </NextLink>
+            </NavbarItem>
           ))}
+          {userLoggedIn ? (
+            <>
+              <Button
+                as={Link}
+                className="font-semibold text-sm"
+                href="/profile"
+                radius="sm"
+                size="lg"
+                startContent={<Icon icon="solar:user-linear" />}
+              >
+                Profile
+              </Button>
+              <Button
+                className="font-semibold text-sm text-white"
+                color="danger"
+                radius="sm"
+                size="lg"
+                variant="solid"
+                onPress={handleLogout}
+              >
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                as={Link}
+                className="font-semibold text-sm"
+                href="/login"
+                radius="sm"
+                size="lg"
+                startContent={<Icon icon="solar:user-linear" />}
+              >
+                Login
+              </Button>
+              <Button
+                className="font-semibold text-sm text-white"
+                color="success"
+                radius="sm"
+                size="lg"
+                variant="solid"
+              >
+                Get Started
+              </Button>
+            </>
+          )}
         </div>
       </NavbarMenu>
     </HeroUINavbar>

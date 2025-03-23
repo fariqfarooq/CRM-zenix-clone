@@ -10,20 +10,17 @@ import { useUser } from '@/contexts/UserContexts';
 import { Card } from '@heroui/card';
 import { Icon } from '@iconify/react';
 
-
-
 export default function ProfilePage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
- 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // For update
+  const [isFetchingProfile, setIsFetchingProfile] = useState(true); // For fetching profile
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
   const router = useRouter();
 
-  
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -42,6 +39,8 @@ export default function ProfilePage() {
         }
       } catch (error) {
         toast.error('Error fetching profile');
+      } finally {
+        setIsFetchingProfile(false);
       }
     };
     fetchProfile();
@@ -54,13 +53,12 @@ export default function ProfilePage() {
     e.preventDefault();
     setLoading(true);
 
-   
     if (password && password !== confirmPassword) {
       toast.error("Passwords do not match");
       setLoading(false);
       return;
     }
-    //  new password with regex 
+    // new password with regex 
     if (password) {
       const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
       if (!passwordRegex.test(password)) {
@@ -77,7 +75,6 @@ export default function ProfilePage() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
-      
         body: JSON.stringify({ name, email, password }),
       });
       const data = await res.json();
@@ -92,113 +89,129 @@ export default function ProfilePage() {
     setLoading(false);
   };
 
+  
+  if (isFetchingProfile) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <Icon icon="mdi:loading" className="animate-spin text-4xl" />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
       <Toaster />
       <Card className='w-full max-w-md'>
-      <Form
-        onSubmit={handleUpdate}
-        className="bg-white p-8 rounded shadow-md w-full max-w-md"
-        validationBehavior="aria"
-      >
-        <h1 className="text-2xl mb-6 text-center">Profile</h1>
-        <Input
-          isRequired
-          label="Name"
-          name="name"
-          placeholder="Enter your name"
-          labelPlacement="outside"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <Input
-          isRequired
-          label="Email"
-          name="email"
-          placeholder="Enter your email"
-          type="email"
-          labelPlacement="outside"
-          errorMessage="Please enter a valid email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          validate={(value) => {
-            if (!value) return null;
-            const emailRegex = /^\S+@\S+\.\S+$/;
-            if (!emailRegex.test(value)) {
-              return "Please enter a valid email";
+        <Form
+          onSubmit={handleUpdate}
+          className="bg-white p-8 rounded shadow-md w-full max-w-md"
+          validationBehavior="aria"
+        >
+          <h1 className="text-2xl mb-6 text-center">Profile</h1>
+          <Input
+            isRequired
+            label="Name"
+            name="name"
+            placeholder="Enter your name"
+            labelPlacement="outside"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            className='mb-4'
+            isRequired
+            label="Email"
+            name="email"
+            placeholder="Enter your email"
+            type="email"
+            labelPlacement="outside"
+            errorMessage="Please enter a valid email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            validate={(value) => {
+              if (!value) return null;
+              const emailRegex = /^\S+@\S+\.\S+$/;
+              if (!emailRegex.test(value)) {
+                return "Please enter a valid email";
+              }
+              return null;
+            }}
+          />
+          <Input
+            className='mt-2'
+            label="New Password (leave blank to keep current)"
+            name="password"
+            placeholder="Enter new password"
+            type={isPasswordVisible ? "text" : "password"}
+            variant="bordered"
+            labelPlacement="outside"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            errorMessage="Password must be at least 8 characters long, include a letter and a number"
+            validate={(value) => {
+              if (!value) return null;
+              const regex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+              if (!regex.test(value)) {
+                return "Password must be at least 8 characters long, include a letter and a number";
+              }
+              return null;
+            }}
+            endContent={
+              <button
+                aria-label="toggle password visibility"
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="focus:outline-none"
+              >
+                {isPasswordVisible ? (
+                  <Icon icon="formkit:eyeclosed" className="text-green-500" />
+                ) : (
+                  <Icon icon="mdi:eye" className="text-gray-500" />
+                )}
+              </button>
             }
-            return null;
-          }}
-        />
-        <Input
-          label="New Password (leave blank to keep current)"
-          name="password"
-          placeholder="Enter new password"
-          type={isPasswordVisible ? "text" : "password"}
-          variant="bordered"
-          labelPlacement="outside"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          errorMessage="Password must be at least 8 characters long, include a letter and a number"
-          validate={(value) => {
-            if (!value) return null;
-            const regex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
-            if (!regex.test(value)) {
-              return "Password must be at least 8 characters long, include a letter and a number";
+          />
+          <Input
+            label="Confirm Password"
+            name="confirmPassword"
+            placeholder="Confirm new password"
+            type={isConfirmVisible ? "text" : "password"}
+            variant="bordered"
+            labelPlacement="outside"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            errorMessage="Passwords do not match"
+            validate={(value) => {
+              if (!password) return null;
+              if (value !== password) return "Passwords do not match";
+              return null;
+            }}
+            endContent={
+              <button
+                aria-label="toggle confirm password visibility"
+                type="button"
+                onClick={toggleConfirmVisibility}
+                className="focus:outline-none"
+              >
+                {isConfirmVisible ? (
+                  <Icon icon="formkit:eyeclosed" className="text-green-500" />
+                ) : (
+                  <Icon icon="mdi:eye" className="text-gray-500" />
+                )}
+              </button>
             }
-            return null;
-          }}
-          endContent={
-            <button
-              aria-label="toggle password visibility"
-              type="button"
-              onClick={togglePasswordVisibility}
-              className="focus:outline-none"
-            >
-              {isPasswordVisible ? (
-                <Icon icon="formkit:eyeclosed" className="text-green-500" />
-              ) : (
-                <Icon icon="mdi:eye" className="text-gray-500" />
-              )}
-            </button>
-          }
-        />
-        <Input
-        
-          label="Confirm Password"
-          name="confirmPassword"
-          placeholder="Confirm new password"
-          type={isConfirmVisible ? "text" : "password"}
-          variant="bordered"
-          labelPlacement="outside"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          errorMessage="Passwords do not match"
-          validate={(value) => {
-           
-            if (!password) return null;
-            if (value !== password) return "Passwords do not match";
-            return null;
-          }}
-          endContent={
-            <button
-              aria-label="toggle confirm password visibility"
-              type="button"
-              onClick={toggleConfirmVisibility}
-              className="focus:outline-none"
-            >
-              {isConfirmVisible ? (
-                <Icon icon="formkit:eyeclosed" className="text-green-500" />
-              ) : (
-                <Icon icon="mdi:eye" className="text-gray-500" />
-              )}
-            </button>
-          }
-        />
-        <Button color='success' type="submit" variant="ghost" className="mt-4 w-full" disabled={loading}>
-          {loading ? "Updating..." : "Update Profile"}
-        </Button>
-      </Form>
+          />
+          <Button color='success' type="submit" variant="ghost" className="mt-4 w-full" disabled={loading}>
+            {loading ? (
+              <>
+                <Icon icon="mdi:loading" className="animate-spin mr-2" />
+                Updating...
+              </>
+            ) : (
+              "Update Profile"
+            )}
+          </Button>
+        </Form>
       </Card>
     </div>
   );

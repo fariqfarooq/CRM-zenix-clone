@@ -15,8 +15,8 @@ import  Footer  from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
+    default: 'Zenix-CRM',
+    template: '%s | Zenix',
   },
   description: siteConfig.description,
   icons: {
@@ -46,7 +46,7 @@ export default function RootLayout({
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
-          {/* Wrap the entire layout with UserProvider */}
+          
           <UserProvider>
             <div className="relative flex flex-col h-screen">
               <Navbar />

@@ -14,9 +14,9 @@ export default function TrustedCarousel() {
     
   ];
 
-  // Reference to the carousel container.
+  
   const carouselRef = useRef(null);
-  // State to hold the maximum draggable width.
+ 
   const [dragWidth, setDragWidth] = useState(0);
 
   useEffect(() => {
