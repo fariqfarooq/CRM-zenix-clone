@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import toast, { Toaster } from 'react-hot-toast';
 
 export default function RegisterPage() {
-  const [name, setName] = useState('');  // State for name
+  const [name, setName] = useState('');  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();

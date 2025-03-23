@@ -1,10 +1,8 @@
-'use client';
-import { useState, useEffect } from 'react';
+"use client";
 import {
   Navbar as HeroUINavbar,
   NavbarContent,
   NavbarMenu,
-  NavbarMenuToggle,
   NavbarBrand,
   NavbarItem,
   NavbarMenuItem,
@@ -17,23 +15,16 @@ import { link as linkStyles } from "@heroui/theme";
 import Image from "next/image";
 import NextLink from "next/link";
 import clsx from "clsx";
+import { Icon } from "@iconify/react";
+import { useRouter } from "next/navigation";
+
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { Icon } from "@iconify/react";
-import { useRouter } from 'next/navigation';
-import { useUser } from '@/contexts/UserContexts';
+import { useUser } from "@/contexts/UserContexts";
 
 export const Navbar = () => {
-  const { userLoggedIn, userName, logout } = useUser();  // This will hold the user's name if needed
+  const { userLoggedIn, userName, logout } = useUser();
   const router = useRouter();
-
-  // Check if user is logged in when the component mounts
- 
-
-    // Check login status initially
-
-
-  ; // Empty dependency array ensures this effect only runs once on mount
 
   const handleLogout = () => {
     logout();
@@ -55,18 +46,26 @@ export const Navbar = () => {
       labelPlacement="outside"
       placeholder="Search..."
       startContent={
-        <Icon icon="solar:search" className="text-base text-default-400 pointer-events-none flex-shrink-0" />
+        <Icon
+          className="text-base text-default-400 pointer-events-none flex-shrink-0"
+          icon="solar:search"
+        />
       }
       type="search"
     />
   );
 
   return (
-    <HeroUINavbar maxWidth="xl" position="sticky" className="mt-2">
+    <HeroUINavbar className="mt-2" maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
-            <Image src="https://crm-zenix.keystonedemo.com/wp-content/uploads/2024/10/crm-logo-dark.svg" alt="ACME" width={150} height={25} />
+            <Image
+              alt="ACME"
+              height={25}
+              src="https://crm-zenix.keystonedemo.com/wp-content/uploads/2024/10/crm-logo-dark.svg"
+              width={150}
+            />
           </NextLink>
         </NavbarBrand>
         <ul className="hidden lg:flex gap-4 justify-start ml-2">
@@ -87,7 +86,10 @@ export const Navbar = () => {
         </ul>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex basis-1/5 sm:basis-full" justify="end">
+      <NavbarContent
+        className="hidden sm:flex basis-1/5 sm:basis-full"
+        justify="end"
+      >
         <NavbarItem className="hidden sm:flex gap-2">
           <ThemeSwitch />
         </NavbarItem>
@@ -96,21 +98,21 @@ export const Navbar = () => {
         {userLoggedIn ? (
           <>
             <Button
-            as={Link}
-            href='/profile'
+              as={Link}
               className="font-semibold text-sm"
-              startContent={<Icon icon="solar:user-linear" />}
-              size="lg"
+              href="/profile"
               radius="sm"
+              size="lg"
+              startContent={<Icon icon="solar:user-linear" />}
             >
-               Profile
+              Profile
             </Button>
             <Button
               className="font-semibold text-sm text-white"
-              size="lg"
-              radius="sm"
-              variant="solid"
               color="danger"
+              radius="sm"
+              size="lg"
+              variant="solid"
               onPress={handleLogout}
             >
               Logout
@@ -119,21 +121,21 @@ export const Navbar = () => {
         ) : (
           <>
             <Button
-            as={Link}
-            href='/login'
+              as={Link}
               className="font-semibold text-sm"
-              startContent={<Icon icon="solar:user-linear" />}
-              size="lg"
+              href="/login"
               radius="sm"
+              size="lg"
+              startContent={<Icon icon="solar:user-linear" />}
             >
               Login
             </Button>
             <Button
               className="font-semibold text-sm text-white"
-              size="lg"
-              radius="sm"
-              variant="solid"
               color="success"
+              radius="sm"
+              size="lg"
+              variant="solid"
             >
               Get Started
             </Button>
@@ -142,9 +144,7 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <Link isExternal aria-label="Github" href={siteConfig.links.github}>
-          <Icon icon="akar-icons:github-fill" className="text-default-500" />
-        </Link>
+      
         <ThemeSwitch />
       </NavbarContent>
 
@@ -158,8 +158,8 @@ export const Navbar = () => {
                   index === 2
                     ? "primary"
                     : index === siteConfig.navMenuItems.length - 1
-                    ? "danger"
-                    : "foreground"
+                      ? "danger"
+                      : "foreground"
                 }
                 href="#"
                 size="lg"
