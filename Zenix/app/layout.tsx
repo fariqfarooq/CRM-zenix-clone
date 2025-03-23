@@ -11,7 +11,7 @@ import { Navbar } from "@/components/navbar";
 
 import { UserProvider } from "@/contexts/UserContexts";
 import  Footer  from "@/components/Footer";
-  // Import the UserProvider
+
 
 export const metadata: Metadata = {
   title: {
