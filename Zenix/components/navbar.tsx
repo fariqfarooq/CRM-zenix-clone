@@ -91,7 +91,7 @@ export const Navbar = () => {
         justify="end"
       >
         <NavbarItem className="hidden sm:flex gap-2">
-          <ThemeSwitch />
+          {/* <ThemeSwitch /> */}
         </NavbarItem>
 
         {/* Conditionally render login/logout/profile buttons */}
@@ -145,7 +145,7 @@ export const Navbar = () => {
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
       
-        <ThemeSwitch />
+        {/* <ThemeSwitch /> */}
       </NavbarContent>
 
       <NavbarMenu>

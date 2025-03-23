@@ -45,7 +45,7 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+        <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
           {/* Wrap the entire layout with UserProvider */}
           <UserProvider>
             <div className="relative flex flex-col h-screen">
