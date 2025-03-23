@@ -188,9 +188,9 @@ export default function ProfilePage() {
               className="focus:outline-none"
             >
               {isConfirmVisible ? (
-                <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                <Icon icon="formkit:eyeclosed" className="text-green-500" />
               ) : (
-                <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                <Icon icon="mdi:eye" className="text-gray-500" />
               )}
             </button>
           }
