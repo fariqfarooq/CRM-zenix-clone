@@ -1,13 +1,13 @@
 import User from '@/app/models/User';
 import dbConnect from '@/lib/dbConnect';
 import { verifyToken } from '@/lib/auth';
-import bcrypt from 'bcrypt'; // Assuming a utility to verify JWT tokens
+import bcrypt from 'bcrypt'; 
 
 export async function GET(request) {
   await dbConnect();
   
   const token = request.headers.get('Authorization');
-  const decoded = await verifyToken(token); // Assuming verifyToken decodes the JWT
+  const decoded = await verifyToken(token); 
 
   if (!decoded) {
     return new Response(JSON.stringify({ message: 'Unauthorized' }), {
