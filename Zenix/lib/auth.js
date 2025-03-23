@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key'; 
+const JWT_SECRET = process.env.JWT_SECRET
+
 
 // Function to verify JWT token
 export function verifyToken(token) {
@@ -24,8 +25,8 @@ export function verifyToken(token) {
 
 // Function to generate a new JWT token
 export function generateToken(user) {
-  const payload = { userId: user._id }; // You can include more user info here if needed
-  const options = { expiresIn: '23h' }; // Token expires in 1 hour
+  const payload = { userId: user._id }; 
+  const options = { expiresIn: '23h' }; 
   const token = jwt.sign(payload, JWT_SECRET, options);
   return token;
 }

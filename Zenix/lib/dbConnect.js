@@ -5,7 +5,7 @@ if (!MONGO_URI) {
   throw new Error('Please define the MONGO_URI environment variable in .env.local');
 }
 
-// Global is used here to maintain a cached connection across hot reloads in development.
+
 let cached = global.mongoose;
 if (!cached) {
   cached = global.mongoose = { conn: null, promise: null };
